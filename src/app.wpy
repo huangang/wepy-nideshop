@@ -40,7 +40,8 @@ export default class extends wepy.app {
       'pages/topic/comment',
       'pages/comment/post',
       'pages/catalog',
-      'pages/search'
+      'pages/search',
+      'pages/cart'
     ],
     window: {
       backgroundTextStyle: 'dark',
@@ -74,7 +75,7 @@ export default class extends wepy.app {
           'text': '分类'
         },
         {
-          'pagePath': 'pages/cart/index',
+          'pagePath': 'pages/cart',
           'iconPath': 'static/images/ic_menu_shoping_nor.png',
           'selectedIconPath': 'static/images/ic_menu_shoping_pressed.png',
           'text': '购物车'
