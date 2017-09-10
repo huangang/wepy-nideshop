@@ -9,5 +9,7 @@ cd wepy-nideshop
 npm install
 wepy build --watch
 ```
-
-
+## help
+```bash
+node_modules/.bin/eslint --fix src/pages/xxx.wpy # eslint fix file
+```

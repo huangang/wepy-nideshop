@@ -41,7 +41,16 @@ export default class extends wepy.app {
       'pages/comment/post',
       'pages/catalog',
       'pages/search',
-      'pages/cart'
+      'pages/cart',
+      'pages/ucenter/index',
+      'pages/ucenter/address',
+      'pages/ucenter/addressAdd',
+      'pages/ucenter/collect',
+      'pages/ucenter/coupon',
+      'pages/ucenter/feedback',
+      'pages/ucenter/footprint',
+      'pages/ucenter/order',
+      'pages/ucenter/orderDetail'
     ],
     window: {
       backgroundTextStyle: 'dark',
