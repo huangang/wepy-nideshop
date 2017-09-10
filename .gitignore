@@ -1,0 +1,8 @@
+.idea
+.wepycache
+node_modules
+dist
+.DS_Store
+logs
+*.log
+*npm-debug*

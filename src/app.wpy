@@ -1,0 +1,121 @@
+<style>
+  .container {
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    font-family: PingFangSC-Light,helvetica,'Heiti SC';
+  }
+
+  view,image,text,navigator{
+    box-sizing: border-box;
+    padding:0;
+    margin:0;
+
+  }
+
+  view,text{
+    font-family: PingFangSC-Light,helvetica,'Heiti SC';
+    font-size: 29rpx;
+    color: #333;
+  }
+</style>
+
+<script>
+  /* eslint-disable keyword-spacing,indent */
+
+import wepy from 'wepy'
+import 'wepy-async-function'
+import user from './services/user.js'
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/index',
+      'pages/category',
+      'pages/brand/index',
+      'pages/brand/detail',
+      'pages/goods/index',
+      'pages/goods/hot',
+      'pages/topic/index',
+      'pages/topic/detail',
+      'pages/topic/comment',
+      'pages/comment/post',
+      'pages/catalog',
+      'pages/search'
+    ],
+    window: {
+      backgroundTextStyle: 'dark',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: '仿网易严选',
+      navigationBarTextStyle: 'black',
+      enablePullDownRefresh: 'true'
+    },
+    'tabBar': {
+      'backgroundColor': '#fafafa',
+      'borderStyle': 'white',
+      'selectedColor': '#b4282d',
+      'color': '#666',
+      'list': [
+        {
+          'pagePath': 'pages/index',
+          'iconPath': 'static/images/ic_menu_choice_nor.png',
+          'selectedIconPath': 'static/images/ic_menu_choice_pressed.png',
+          'text': '首页'
+        },
+        {
+          'pagePath': 'pages/topic/index',
+          'iconPath': 'static/images/ic_menu_topic_nor.png',
+          'selectedIconPath': 'static/images/ic_menu_topic_pressed.png',
+          'text': '专题'
+        },
+        {
+          'pagePath': 'pages/catalog',
+          'iconPath': 'static/images/ic_menu_sort_nor.png',
+          'selectedIconPath': 'static/images/ic_menu_sort_pressed.png',
+          'text': '分类'
+        },
+        {
+          'pagePath': 'pages/cart/index',
+          'iconPath': 'static/images/ic_menu_shoping_nor.png',
+          'selectedIconPath': 'static/images/ic_menu_shoping_pressed.png',
+          'text': '购物车'
+        },
+        {
+          'pagePath': 'pages/ucenter/index',
+          'iconPath': 'static/images/ic_menu_me_nor.png',
+          'selectedIconPath': 'static/images/ic_menu_me_pressed.png',
+          'text': '我的'
+        }
+      ]
+    },
+    'networkTimeout': {
+      'request': 10000,
+      'downloadFile': 10000
+    },
+    'debug': true
+  }
+
+  globalData = {
+    userInfo: {
+      nickname: 'Hi,游客',
+      username: '点击去登录',
+      avatar: 'http://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png'
+    },
+    token: ''
+  }
+
+  constructor () {
+    super()
+    this.use('requestfix')
+    this.use('promisify')
+  }
+
+  async onLaunch() {
+    let res = await user.checkLogin()
+    if(res) {
+      console.log('app login')
+      this.globalData.userInfo = wepy.getStorageSync('userInfo')
+      this.globalData.token = wepy.getStorageSync('token')
+    }
+  }
+}
+</script>
