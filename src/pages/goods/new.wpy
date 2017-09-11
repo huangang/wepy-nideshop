@@ -225,7 +225,7 @@
   import util from '../../utils/util.js'
   import api from '../../config/api.js'
 
-  export default class Hot extends wepy.page {
+  export default class New extends wepy.page {
     data = {
       bannerInfo: {
         'img_url': '',
@@ -240,8 +240,27 @@
       page: 1,
       size: 1000
     }
+    onLoad() {
+      this.getData()
+    }
+    async getData () {
+      let res = await util.request(api.GoodsHot)
+      if (res.errno === 0) {
+        this.bannerInfo = res.data.bannerInfo
+        this.$apply()
+        this.getGoodsList()
+      }
+    }
+    async getGoodsList() {
+      let res = await util.request(api.GoodsList, {isNew: 1, page: this.page, size: this.size, order: this.currentSortOrder, sort: this.currentSortType, categoryId: this.categoryId})
+      if (res.errno === 0) {
+        this.goodsList = res.data.goodsList
+        this.filterCategory = res.data.filterCategory
+        this.$apply()
+      }
+    }
     methods = {
-      openSortFilter: async function (event) {
+      openSortFilter: function (event) {
         let currentId = event.currentTarget.id
         switch (currentId) {
           case 'categoryFilter':
@@ -257,40 +276,21 @@
             this.currentSortType = 'price'
             this.currentSortOrder = tmpSortOrder
             this.categoryFilter = false
-            await this.getData()
+            this.getData()
             break
           default:
             // 综合排序
             this.currentSortType = 'default'
             this.currentSortOrder = 'desc'
             this.categoryFilter = false
-            await this.getData()
+            this.getData()
         }
       },
-      selectCategory: async function(event) {
+      selectCategory: function (event) {
         let currentIndex = event.target.dataset.categoryIndex
         this.categoryFilter = false
         this.categoryId = this.filterCategory[currentIndex].id
-        await this.getData()
-      }
-    }
-    onLoad() {
-      this.getData()
-    }
-    async getData () {
-      let res = await util.request(api.GoodsHot)
-      if (res.errno === 0) {
-        this.bannerInfo = res.data.bannerInfo
-        this.$apply()
-        this.getGoodsList()
-      }
-    }
-    async getGoodsList () {
-      let res = await util.request(api.GoodsList, {isHot: 1, page: this.page, size: this.size, order: this.currentSortOrder, sort: this.currentSortType, categoryId: this.categoryId})
-      if (res.errno === 0) {
-        this.goodsList = res.data.goodsList
-        this.filterCategory = res.data.filterCategory
-        this.$apply()
+        this.getData()
       }
     }
   }

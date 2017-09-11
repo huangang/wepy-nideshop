@@ -1,0 +1,37 @@
+<style lang="less">
+  .log-list {
+    display: flex;
+    flex-direction: column;
+    padding: 40rpx;
+  }
+  .log-item {
+    margin: 10rpx;
+  }
+</style>
+<template>
+  <view class="container log-list">
+    <block wx:for="{{logs}}" wx:for-item="log">
+      <text class="log-item">{{index + 1}}. {{log}}</text>
+    </block>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import util from '../utils/util.js'
+
+  export default class Logs extends wepy.page {
+    config = {
+      navigationBarTitleText: '查看启动日志'
+    }
+    data = {
+      logs: []
+    }
+    onLoad() {
+      this.logs = (wepy.getStorageSync('logs') || []).map(function (log) {
+        return util.formatTime(new Date(log))
+      })
+      this.$apply()
+    }
+  }
+</script>

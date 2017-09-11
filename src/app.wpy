@@ -35,10 +35,12 @@ export default class extends wepy.app {
       'pages/brand/detail',
       'pages/goods/index',
       'pages/goods/hot',
+      'pages/goods/new',
       'pages/topic/index',
       'pages/topic/detail',
       'pages/topic/comment',
       'pages/comment/post',
+      'pages/comment/index',
       'pages/catalog',
       'pages/search',
       'pages/cart',
@@ -50,7 +52,13 @@ export default class extends wepy.app {
       'pages/ucenter/feedback',
       'pages/ucenter/footprint',
       'pages/ucenter/order',
-      'pages/ucenter/orderDetail'
+      'pages/ucenter/orderDetail',
+      'pages/logs',
+      'pages/pay/pay',
+      'pages/pay/result',
+      'pages/shopping/address',
+      'pages/shopping/addressAdd',
+      'pages/shopping/checkout'
     ],
     window: {
       backgroundTextStyle: 'dark',

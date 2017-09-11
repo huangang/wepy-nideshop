@@ -1,14 +1,110 @@
 <style lang="less">
+  .brand-list .item{
+    display: block;
+    width: 750rpx;
+    height: 416rpx;
+    position: relative;
+    margin-bottom: 4rpx;
+  }
 
+  .brand-list .item .img-bg{
+    position: absolute;
+    left:0;
+    top:0;
+    z-index: 0;
+    width: 750rpx;
+    height: 417rpx;
+    overflow: hidden;
+  }
+
+  .brand-list .item .img-bg image{
+    width: 750rpx;
+    height: 416rpx;
+  }
+
+  .brand-list .item .txt-box{
+    position: absolute;
+    left:0;
+    top:0;
+    display: table;
+    z-index: 0;
+    width: 750rpx;
+    height: 417rpx;
+  }
+
+  .brand-list .item .line{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    height: 63rpx;
+    line-height: 63rpx;
+  }
+
+  .brand-list .item .line text{
+    font-size: 35rpx;
+    font-weight: 700;
+    text-shadow: 1rpx 1rpx rgba(0,0,0,.32);
+    color: #fff;
+  }
+
+  .brand-list .item .line .s{
+    padding: 0 10rpx;
+    font-size: 40rpx;
+  }
 </style>
 <template>
+  <view class="container">
+    <view class="brand-list" >
+      <navigator url="../brandDetail/brandDetail?id={{item.id}}"  class="item" wx:for="{{brandList}}" wx:key="id">
+        <view class="img-bg">
+          <image src="{{item.app_list_pic_url}}" background-size="cover"></image>
+        </view>
+        <view class="txt-box">
+          <view class="line">
+            <text class="name" >{{item.name}}</text>
+            <text class="s">|</text>
+            <text class="price">{{item.floor_price}}元起</text>
+          </view>
+        </view>
+      </navigator >
+    </view>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import util from '../../utils/util.js'
+  import api from '../../config/api.js'
 
   export default class Index extends wepy.page {
-    onLoad() {
+    data = {
+      brandList: [],
+      page: 1,
+      size: 10,
+      totalPages: 1
+    }
+    async onLoad() {
+      await this.getBrandList()
+    }
+
+    async getBrandList () {
+      wepy.showLoading({
+        title: '加载中...'
+      })
+      let res = await util.request(api.BrandList, { page: this.page, size: this.size })
+      if (res.errno === 0) {
+        this.brandList = this.brandList.concat(res.data.data)
+        this.totalPages = res.data.totalPages
+      }
+      wepy.hideLoading()
+    }
+    onReachBottom () {
+      if (this.totalPages > this.page) {
+        this.page = this.page + 1
+      } else {
+        return false
+      }
+      this.getBrandList()
     }
   }
 </script>

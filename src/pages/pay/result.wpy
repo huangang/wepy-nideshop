@@ -1,0 +1,18 @@
+<style lang="less">
+
+</style>
+<template>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Result extends wepy.page {
+    config = {
+      navigationBarTitleText: '付款结果',
+      navigationBarBackgroundColor: '#fafafa'
+    }
+    onLoad() {
+    }
+  }
+</script>
