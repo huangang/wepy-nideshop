@@ -813,7 +813,7 @@
         </view>
         <view class="b">
           <view class="item" wx:for="{{relatedGoods}}" wx:key="{{item.id}}">
-            <navigator url="/pages/goods/goods?id={{item.id}}">
+            <navigator url="/pages/goods/index?id={{item.id}}">
               <image class="img" src="{{item.list_pic_url}}" background-size="cover"></image>
               <text class="name">{{item.name}}</text>
               <text class="price">￥{{item.retail_price}}</text>
@@ -898,38 +898,26 @@
     methods = {
       switchAttrPop: function () {
         if (this.openAttr === false) {
-          this.setData({
-            openAttr: !this.openAttr,
-            collectBackImage: '/static/images/detail_back.png'
-          })
+          this.openAttr = !this.openAttr
+          this.collectBackImage = '/static/images/detail_back.png'
         }
       },
       closeAttrOrCollect: async function () {
         if (this.openAttr) {
-          this.setData({
-            openAttr: false
-          })
+          this.openAttr = false
           if (this.userHasCollect === 1) {
-            this.setData({
-              'collectBackImage': this.hasCollectImage
-            })
+            this.collectBackImage = this.hasCollectImage
           } else {
-            this.setData({
-              'collectBackImage': this.noCollectImage
-            })
+            this.collectBackImage = this.noCollectImage
           }
         } else {
           // 添加或是取消收藏
           let res = await util.request(api.CollectAddOrDelete, { typeId: 0, valueId: this.id }, 'POST')
           if (res.errno === 0) {
             if (res.data.type === 'add') {
-              this.setData({
-                'collectBackImage': this.hasCollectImage
-              })
+              this.collectBackImage = this.hasCollectImage
             } else {
-              this.setData({
-                'collectBackImage': this.noCollectImage
-              })
+              this.collectBackImage = this.noCollectImage
             }
           } else {
             wepy.showToast({
@@ -942,16 +930,14 @@
       },
       openCartPage: function () {
         wepy.switchTab({
-          url: '/pages/cart/cart'
+          url: '/pages/cart'
         })
       },
       addToCart: async function () {
         if (this.openAttr === false) {
           // 打开规格选择窗口
-          this.setData({
-            openAttr: !this.openAttr,
-            collectBackImage: '/static/images/detail_back.png'
-          })
+          this.openAttr = !this.openAttr
+          this.collectBackImage = '/static/images/detail_back.png'
         } else {
         // 提示选择完整规格
           if (!this.isCheckedAllSpec()) {
@@ -977,18 +963,12 @@
             wepy.showToast({
               title: '添加成功'
             })
-            this.setData({
-              openAttr: !this.openAttr,
-              cartGoodsCount: res.data.cartTotal.goodsCount
-            })
+            this.openAttr = !this.openAttr
+            this.cartGoodsCount = res.data.cartTotal.goodsCount
             if (this.userHasCollect === 1) {
-              this.setData({
-                'collectBackImage': this.hasCollectImage
-              })
+              this.collectBackImage = this.hasCollectImage
             } else {
-              this.setData({
-                'collectBackImage': this.noCollectImage
-              })
+              this.collectBackImage = this.noCollectImage
             }
           } else {
             wepy.showToast({
@@ -1000,39 +980,29 @@
         }
       },
       cutNumber: function () {
-        this.setData({
-          number: (this.number - 1 > 1) ? this.number - 1 : 1
-        })
+        this.number = (this.number - 1 > 1) ? this.number - 1 : 1
       },
       addNumber: function () {
-        this.setData({
-          number: this.number + 1
-        })
+        this.number ++
       }
     }
     async getGoodsInfo () {
       let res = await util.request(api.GoodsDetail, { id: this.id })
       if (res.errno === 0) {
-        this.setData({
-          goods: res.data.info,
-          gallery: res.data.gallery,
-          attribute: res.data.attribute,
-          issueList: res.data.issue,
-          comment: res.data.comment,
-          brand: res.data.brand,
-          specificationList: res.data.specificationList,
-          productList: res.data.productList,
-          userHasCollect: res.data.userHasCollect
-        })
-
+        this.goods = res.data.info
+        this.gallery = res.data.gallery
+        this.attribute = res.data.attribute
+        this.issueList = res.data.issue
+        this.comment = res.data.comment
+        this.brand = res.data.brand
+        this.specificationList = res.data.specificationList
+        this.productList = res.data.productList
+        this.userHasCollect = res.data.userHasCollect
+        this.$apply()
         if (res.data.userHasCollect === 1) {
-          this.setData({
-            'collectBackImage': this.hasCollectImage
-          })
+          this.collectBackImage = this.hasCollectImage
         } else {
-          this.setData({
-            'collectBackImage': this.noCollectImage
-          })
+          this.collectBackImage = this.noCollectImage
         }
 
         WxParse.wxParse('goodsDetail', 'html', res.data.info.goods_desc, this)
@@ -1043,9 +1013,8 @@
     async getGoodsRelated () {
       let res = await util.request(api.GoodsRelated, { id: this.id })
       if (res.errno === 0) {
-        this.setData({
-          relatedGoods: res.data.goodsList
-        })
+        this.relatedGoods = res.data.goodsList
+        this.$apply()
       }
     }
     clickSkuValue (event) {
@@ -1072,9 +1041,8 @@
           }
         }
       }
-      this.setData({
-        'specificationList': _specificationList
-      })
+      this.specificationList = _specificationList
+      this.$apply()
     // 重新计算spec改变后的信息
       this.changeSpecInfo()
 
@@ -1134,14 +1102,11 @@
         return v.valueText
       })
       if (checkedValue.length > 0) {
-        this.setData({
-          'checkedSpecText': checkedValue.join('　')
-        })
+        this.checkedSpecText = checkedValue.join('　')
       } else {
-        this.setData({
-          'checkedSpecText': '请选择规格数量'
-        })
+        this.checkedSpecText = '请选择规格数量'
       }
+      this.$apply()
     }
     getCheckedProductItem (key) {
       return this.productList.filter(function (v) {
