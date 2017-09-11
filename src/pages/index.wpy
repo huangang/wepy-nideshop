@@ -532,23 +532,22 @@
     async getIndexData () {
       let res = await util.request(api.IndexUrl)
       if (res.errno === 0) {
-        this.setData({
-          newGoods: res.data.newGoodsList,
-          hotGoods: res.data.hotGoodsList,
-          topics: res.data.topicList,
-          brand: res.data.brandList,
-          floorGoods: res.data.categoryList,
-          banner: res.data.banner,
-          channel: res.data.channel
-        })
+        this.newGoods = res.data.newGoodsList
+        this.hotGoods = res.data.hotGoodsList
+        this.topics = res.data.topicList
+        this.brand = res.data.brandList
+        this.floorGoods = res.data.categoryList
+        this.banner = res.data.banner
+        this.channel = res.data.channel
+        this.$apply()
       }
     }
     events = {
       'index-emit': (...args) => {
       }
     }
-    onLoad() {
-      this.getIndexData()
+    async onLoad() {
+      await this.getIndexData()
     }
     onShareAppMessage () {
       return {
