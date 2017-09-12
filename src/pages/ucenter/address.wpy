@@ -24,6 +24,11 @@
     border-bottom: 1rpx solid #DCD9D9;
   }
 
+  .address-list .item:last-child{
+
+    border-bottom: none;
+  }
+
   .address-list .l{
     width: 125rpx;
     height: 80rpx;
@@ -130,7 +135,7 @@
 <template>
   <view class="container">
     <view class="address-list" wx:if="{{ addressList.length > 0 }}">
-      <view class="item" wx:for="{{addressList}}" wx:key="{{item.id}}" bindtap="addressAddOrUpdate" data-address-id="{{item.id}}">
+      <view class="item" wx:for="{{addressList}}" wx:key="{{item.id}}" bindtap="selectAddress" data-address-id="{{item.id}}">
         <view class="l">
           <view class="name">{{item.name}}</view>
           <view class="default" wx:if="{{item.is_default}}">默认</view>
@@ -140,7 +145,7 @@
           <view class="address">{{item.full_region + item.address}}</view>
         </view>
         <view class="r">
-          <image catchtap="deleteAddress" data-address-id="{{item.id}}" class="del" src="/static/images/del-address.png"></image>
+          <image catchtap="addressAddOrUpdate" data-address-id="{{item.id}}" class="del" src="http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-edit-7fee7b0d63.png"></image>
         </view>
       </view>
     </view>

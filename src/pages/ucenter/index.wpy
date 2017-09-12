@@ -1,14 +1,295 @@
 <style lang="less">
+  page{
+    height: 100%;
+    width: 100%;
+    background: #f4f4f4;
+  }
+  .container{
+    background: #f4f4f4;
+    height: auto;
+    overflow: hidden;
+    width: 100%;
+  }
+  .profile-info{
+    width: 100%;
+    height: 280rpx;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 30.25rpx;
+    background: #333;
+  }
 
+  .profile-info .avatar{
+    height: 148rpx;
+    width: 148rpx;
+    border-radius: 50%;
+  }
+
+  .profile-info .info{
+    flex: 1;
+    height: 85rpx;
+    padding-left: 31.25rpx;
+  }
+
+  .profile-info .name{
+    display: block;
+    height: 45rpx;
+    line-height: 45rpx;
+    color: #fff;
+    font-size: 37.5rpx;
+    margin-bottom: 10rpx;
+  }
+
+  .profile-info .level{
+    display: block;
+    height: 30rpx;
+    line-height: 30rpx;
+    margin-bottom: 10rpx;
+    color: #7f7f7f;
+    font-size: 30rpx;
+  }
+
+  .user-menu{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .user-menu .item{
+    float: left;
+    width: 33.33333%;
+    height: 187.5rpx;
+    border-right: 1px solid rgba(0,0,0,.15);
+    border-bottom: 1px solid rgba(0,0,0,.15);
+    text-align: center;
+  }
+
+  .user-menu .item .a{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .user-menu .item.no-border {
+    border-right: 0;
+  }
+
+  .user-menu .item.item-bottom {
+    border-bottom: none;
+  }
+
+  .user-menu .icon{
+    margin: 0 auto;
+    display: block;
+    height: 52.803rpx;
+    width: 52.803rpx;
+    margin-bottom: 16rpx;
+  }
+
+  .user-menu .icon.order{
+    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/sprites/ucenter-sdf6a55ee56-f2c2b9c2f0.png) 0 -437.5rpx no-repeat;
+    background-size: 52.803rpx;
+  }
+
+  .user-menu .icon.coupon{
+    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/sprites/ucenter-sdf6a55ee56-f2c2b9c2f0.png) 0 -62.4997rpx no-repeat;
+    background-size: 52.803rpx;
+  }
+
+  .user-menu .icon.gift{
+    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/sprites/ucenter-sdf6a55ee56-f2c2b9c2f0.png) 0 -187.5rpx no-repeat;
+    background-size: 52.803rpx;
+  }
+
+  .user-menu .icon.address{
+    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/sprites/ucenter-sdf6a55ee56-f2c2b9c2f0.png) 0 0 no-repeat;
+    background-size: 52.803rpx;
+  }
+
+  .user-menu .icon.security{
+    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/sprites/ucenter-sdf6a55ee56-f2c2b9c2f0.png) 0 -500rpx no-repeat;
+    background-size: 52.803rpx;
+  }
+
+  .user-menu .icon.kefu{
+    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/sprites/ucenter-sdf6a55ee56-f2c2b9c2f0.png) 0 -312.5rpx no-repeat;
+    background-size: 52.803rpx;
+  }
+
+  .user-menu .icon.help{
+    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/sprites/ucenter-sdf6a55ee56-f2c2b9c2f0.png) 0 -250rpx no-repeat;
+    background-size: 52.803rpx;
+  }
+
+  .user-menu .icon.feedback{
+    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/sprites/ucenter-sdf6a55ee56-f2c2b9c2f0.png) 0 -125rpx no-repeat;
+    background-size: 52.803rpx;
+  }
+
+
+  .user-menu .txt{
+    display: block;
+    height: 24rpx;
+    width: 100%;
+    font-size: 24rpx;
+    color:#333;
+  }
+
+  .logout{
+    margin-top: 50rpx;
+    height: 101rpx;
+    width: 100%;
+    line-height: 101rpx;
+    text-align: center;
+    background: #fff;
+    color: #333;
+    font-size: 30rpx;
+  }
 </style>
 <template>
+  <view class="container">
+    <view class="profile-info" bindtap="goLogin">
+      <image class="avatar" src="{{userInfo.avatar}}"></image>
+      <view class="info">
+        <text class="name">{{userInfo.nickname}}</text>
+        <text class="level">{{userInfo.username}}</text>
+      </view>
+    </view>
+
+    <view class="user-menu">
+      <view class="item">
+        <navigator url="/pages/ucenter/order/order" class="a">
+          <text class="icon order"></text>
+          <text class="txt">我的订单</text>
+        </navigator>
+      </view>
+      <view class="item">
+        <navigator url="/pages/ucenter/coupon/coupon" class="a">
+          <text class="icon coupon"></text>
+          <text class="txt">优惠券</text>
+        </navigator>
+      </view>
+      <view class="item no-border">
+        <navigator url="url" class="a">
+          <text class="icon gift"></text>
+          <text class="txt">礼品卡</text>
+        </navigator>
+      </view>
+      <view class="item">
+        <navigator url="/pages/ucenter/collect/collect" class="a">
+          <text class="icon address"></text>
+          <text class="txt">我的收藏</text>
+        </navigator>
+      </view>
+      <view class="item">
+        <navigator url="/pages/ucenter/footprint/footprint" class="a">
+          <text class="icon security"></text>
+          <text class="txt">我的足迹</text>
+        </navigator>
+      </view>
+      <view class="item no-border">
+        <navigator url="url" class="a">
+          <text class="icon kefu"></text>
+          <text class="txt">会员福利</text>
+        </navigator>
+      </view>
+      <view class="item">
+        <navigator url="../address/address" class="a">
+          <text class="icon address"></text>
+          <text class="txt">地址管理</text>
+        </navigator>
+      </view>
+      <view class="item">
+        <navigator url="url" class="a">
+          <text class="icon security"></text>
+          <text class="txt">账号安全</text>
+        </navigator>
+      </view>
+      <view class="item no-border">
+        <navigator url="url" class="a">
+          <text class="icon kefu"></text>
+          <text class="txt">联系客服</text>
+        </navigator>
+      </view>
+      <view class="item item-bottom">
+        <navigator url="url" class="a">
+          <text class="icon help"></text>
+          <text class="txt">帮助中心</text>
+        </navigator>
+      </view>
+      <view class="item item-bottom">
+        <navigator url="/pages/ucenter/feedback/feedback" class="a">
+          <text class="icon feedback"></text>
+          <text class="txt">意见反馈</text>
+        </navigator>
+      </view>
+    </view>
+
+    <!--<view class="logout" bindtap="exitLogin">退出登录</view>-->
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import user from '../../services/user.js'
 
   export default class Index extends wepy.page {
+    config = {
+      backgroundColor: '#f4f4f4'
+    }
+    data = {
+      userInfo: {}
+    }
     onLoad() {
+      console.log(this.globalData)
+    }
+    onShow () {
+
+      let userInfo = wx.getStorageSync('userInfo');
+      let token = wx.getStorageSync('token');
+
+      // 页面显示
+      if (userInfo && token) {
+        app.globalData.userInfo = userInfo;
+        app.globalData.token = token;
+      }
+
+      this.setData({
+        userInfo: app.globalData.userInfo,
+      });
+
+    }
+    methods = {
+      async goLogin() {
+        let res = await user.loginByWeixin()
+        if (res) {
+          this.userInfo = res.data.userInfo
+          this.globalData.userInfo = res.data.userInfo
+          this.globalData.token = res.data.token
+        }
+      },
+      exitLogin () {
+        wepy.showModal({
+          title: '',
+          confirmColor: '#b4282d',
+          content: '退出登录？',
+          success: function (res) {
+            if (res.confirm) {
+              wepy.removeStorageSync('token')
+              wepy.removeStorageSync('userInfo')
+              wepy.switchTab({
+                url: '/pages/index'
+              })
+            }
+          }
+        })
+      }
     }
   }
 </script>

@@ -162,7 +162,7 @@
   import util from '../../utils/util.js'
   import api from '../../config/api.js'
 
-  export default class Addesss extends wepy.page {
+  export default class Address extends wepy.page {
     data = {
       addressList: []
     }
