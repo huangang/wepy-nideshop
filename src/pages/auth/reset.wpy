@@ -1,16 +1,125 @@
 <style lang="less">
+  .form-box{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding: 0 40rpx;
+    margin-top: 96rpx;
+    background: #fff;
+  }
 
+  .form-item{
+    position: relative;
+    background: #fff;
+    height: 96rpx;
+    border-bottom: 1px solid #d9d9d9;
+  }
+
+  .form-item .username, .form-item .code{
+    position: absolute;
+    top: 26rpx;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 44rpx;
+    background: #fff;
+    color: #333;
+    font-size: 30rpx;
+  }
+
+  .form-item-code{
+    margin-top:32rpx;
+    height: auto;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .form-item-code .form-item{
+    float: left;
+    width: 350rpx;
+  }
+
+  .form-item-code .code-img{
+    float: right;
+    margin-top: 4rpx;
+    height: 88rpx;
+    width: 236rpx;
+  }
+
+  .form-item .clear{
+    position: absolute;
+    top: 26rpx;
+    right: 18rpx;
+    z-index: 2;
+    display: block;
+    background: #fff;
+    height: 44rpx;
+    width: 44rpx;
+  }
+
+  .login-btn{
+    margin: 60rpx 0 40rpx 0;
+    height: 96rpx;
+    line-height: 96rpx;
+    color: #fff;
+    font-size: 30rpx;
+    width: 100%;
+    background: #b4282d;
+    border-radius: 6rpx;
+  }
 </style>
 <template>
+  <view class="container">
+    <view class="form-box">
+
+      <view class="form-item">
+        <input class="username" value="{{username}}" bindinput="bindUsernameInput" placeholder="请输入账号" auto-focus/>
+        <image wx:if="{{ username.length > 0 }}" id="clear-username" class="clear" src="/static/images/clear_input.png" catchtap="clearInput"></image>
+      </view>
+
+      <view class="form-item-code" >
+        <view class="form-item code-item">
+          <input class="code" value="{{code}}" bindinput="bindCodeInput" placeholder="验证码"/>
+          <image class="clear" id="clear-code" wx:if="{{ code.length > 0 }}" src="/static/images/clear_input.png" catchtap="clearInput"></image>
+        </view>
+        <image class="code-img" src="https://dl.reg.163.com/cp?pd=yanxuan_web&pkid=SkeBZeG&random=1489903563234"></image>
+      </view>
+
+      <button type="default" class="login-btn" bindtap="startNext">下一步</button>
+
+    </view>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
 
   export default class Rest extends wepy.page {
-    config = {
+    data = {
+      username: '',
+      code: ''
     }
     onLoad() {
+    }
+    methods = {
+      startLogin: function() {
+      },
+      bindUsernameInput: function(e) {
+        this.username = e.detail.value
+      },
+      bindCodeInput: function(e) {
+        this.code = e.detail.value
+      },
+      clearInput: function(e) {
+        switch (e.currentTarget.id) {
+          case 'clear-username':
+            this.username = ''
+            break
+          case 'clear-code':
+            this.code = ''
+            break
+        }
+      }
     }
   }
 </script>

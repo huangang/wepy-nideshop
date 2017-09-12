@@ -1,16 +1,213 @@
 <style lang="less">
+  .form-box{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding: 0 40rpx;
+    margin-top: 96rpx;
+    background: #fff;
+  }
 
+  .form-item{
+    position: relative;
+    background: #fff;
+    height: 96rpx;
+    border-bottom: 1px solid #d9d9d9;
+  }
+
+  .form-item .username, .form-item .password, .form-item .code{
+    position: absolute;
+    top: 26rpx;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 44rpx;
+    background: #fff;
+    color: #333;
+    font-size: 30rpx;
+  }
+
+  .form-item-code{
+    margin-top:32rpx;
+    height: auto;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .form-item-code .form-item{
+    float: left;
+    width: 350rpx;
+  }
+
+  .form-item-code .code-img{
+    float: right;
+    margin-top: 4rpx;
+    height: 88rpx;
+    width: 236rpx;
+  }
+
+  .form-item .clear{
+    position: absolute;
+    top: 26rpx;
+    right: 18rpx;
+    z-index: 2;
+    display: block;
+    background: #fff;
+    height: 44rpx;
+    width: 44rpx;
+  }
+
+  .login-btn{
+    margin: 60rpx 0 40rpx 0;
+    height: 96rpx;
+    line-height: 96rpx;
+    color: #fff;
+    font-size: 30rpx;
+    width: 100%;
+    background: #b4282d;
+    border-radius: 6rpx;
+  }
+
+  .form-item-text{
+    height: 35rpx;
+    width: 100%;
+  }
+
+  .form-item-text .register{
+    display: block;
+    height: 34rpx;
+    float: left;
+    font-size: 28rpx;
+    color: #999;
+  }
+
+  .form-item-text .reset{
+    display: block;
+    height: 34rpx;
+    float: right;
+    font-size: 28rpx;
+    color: #999;
+  }
 </style>
 <template>
+  <view class="container">
+    <view class="form-box">
+
+      <view class="form-item">
+        <input class="username" value="{{username}}" bindinput="bindUsernameInput" placeholder="用户名" auto-focus/>
+        <image wx:if="{{ username.length > 0 }}" id="clear-username" class="clear" src="/static/images/clear_input.png" catchtap="clearInput"></image>
+      </view>
+
+      <view class="form-item">
+        <input class="password" value="{{password}}" password bindinput="bindPasswordInput" placeholder="密码"/>
+        <image class="clear" id="clear-password" wx:if="{{ password.length > 0 }}" src="/static/images/clear_input.png" catchtap="clearInput"></image>
+      </view>
+
+      <view class="form-item">
+        <input class="password" value="{{confirmPassword}}" password bindinput="bindConfirmPasswordInput" placeholder="确认密码"/>
+        <image class="clear" id="clear-confirm-password" wx:if="{{ confirmPassword.length > 0 }}" src="/static/images/clear_input.png" catchtap="clearInput"></image>
+      </view>
+
+      <view class="form-item-code" >
+        <view class="form-item code-item">
+          <input class="code" value="{{code}}" bindinput="bindCodeInput" placeholder="验证码"/>
+          <image class="clear" id="clear-code" wx:if="{{ code.length > 0 }}" src="/static/images/clear_input.png" catchtap="clearInput"></image>
+        </view>
+        <image class="code-img" src="https://dl.reg.163.com/cp?pd=yanxuan_web&pkid=SkeBZeG&random=1489903563234"></image>
+      </view>
+
+      <button type="default" class="login-btn" bindtap="startRegister">注册</button>
+
+    </view>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
+  import api from '../../config/api.js'
 
   export default class Register extends wepy.page {
-    config = {
+    data = {
+      username: '',
+      password: '',
+      confirmPassword: '',
+      code: '',
+      loginErrorCount: 0
     }
     onLoad() {
+    }
+    methods = {
+      startRegister: async function () {
+        if (this.password.length < 3 || this.username.length < 3) {
+          wepy.showModal({
+            title: '错误信息',
+            content: '用户名和密码不得少于3位',
+            showCancel: false
+          })
+          return false
+        }
+
+        if (this.password !== this.confirmPassword) {
+          wepy.showModal({
+            title: '错误信息',
+            content: '确认密码不一致',
+            showCancel: false
+          })
+          return false
+        }
+        let res = await wepy.request({
+          url: api.ApiRootUrl + 'auth/register',
+          data: {
+            username: this.username,
+            password: this.password
+          },
+          method: 'POST',
+          header: {
+            'content-type': 'application/json'
+          }
+        })
+        if (res.data.code === 200) {
+          this.loginErrorCount = 0
+          let ret = wepy.setStorage({
+            key: 'oken',
+            data: res.data.data.token
+          })
+          if (ret) {
+            wepy.switchTab({
+              url: '/pages/ucenter/index/index'
+            })
+          }
+          console.log(res.data.data.token)
+        }
+      },
+      bindUsernameInput: function (e) {
+        this.username = e.detail.value
+      },
+      bindPasswordInput: function (e) {
+        this.password = e.detail.value
+      },
+      bindConfirmPasswordInput: function (e) {
+        this.confirmPassword = e.detail.value
+      },
+      bindCodeInput: function (e) {
+        this.code = e.detail.value
+      },
+      clearInput: function (e) {
+        switch (e.currentTarget.id) {
+          case 'clear-username':
+            this.username = ''
+            break
+          case 'clear-password':
+            this.password = ''
+            break
+          case 'clear-confirm-password':
+            this.confirmPassword = ''
+            break
+          case 'clear-code':
+            this.code = ''
+            break
+        }
+      }
     }
   }
 </script>
