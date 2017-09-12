@@ -18,8 +18,8 @@ async function loginByWeixin() {
       let ret = await util.request(api.AuthLoginByWeixin, {code: code, userInfo: userInfo}, 'POST')
       if (ret.errno === 0) {
         // 存储用户信息
-        wepy.setStorageSync('userInfo', res.data.userInfo)
-        wepy.setStorageSync('token', res.data.token)
+        wepy.setStorageSync('userInfo', ret.data.userInfo)
+        wepy.setStorageSync('token', ret.data.token)
       }
       return ret
     }
