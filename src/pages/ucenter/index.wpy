@@ -164,13 +164,13 @@
 
     <view class="user-menu">
       <view class="item">
-        <navigator url="/pages/ucenter/order/order" class="a">
+        <navigator url="/pages/ucenter/order" class="a">
           <text class="icon order"></text>
           <text class="txt">我的订单</text>
         </navigator>
       </view>
       <view class="item">
-        <navigator url="/pages/ucenter/coupon/coupon" class="a">
+        <navigator url="/pages/ucenter/coupon" class="a">
           <text class="icon coupon"></text>
           <text class="txt">优惠券</text>
         </navigator>
@@ -182,13 +182,13 @@
         </navigator>
       </view>
       <view class="item">
-        <navigator url="/pages/ucenter/collect/collect" class="a">
+        <navigator url="/pages/ucenter/collect" class="a">
           <text class="icon address"></text>
           <text class="txt">我的收藏</text>
         </navigator>
       </view>
       <view class="item">
-        <navigator url="/pages/ucenter/footprint/footprint" class="a">
+        <navigator url="/pages/ucenter/footprint" class="a">
           <text class="icon security"></text>
           <text class="txt">我的足迹</text>
         </navigator>
@@ -200,7 +200,7 @@
         </navigator>
       </view>
       <view class="item">
-        <navigator url="../address/address" class="a">
+        <navigator url="/pages/ucenter/address" class="a">
           <text class="icon address"></text>
           <text class="txt">地址管理</text>
         </navigator>
@@ -224,7 +224,7 @@
         </navigator>
       </view>
       <view class="item item-bottom">
-        <navigator url="/pages/ucenter/feedback/feedback" class="a">
+        <navigator url="/pages/ucenter/feedback" class="a">
           <text class="icon feedback"></text>
           <text class="txt">意见反馈</text>
         </navigator>
@@ -279,7 +279,6 @@
             confirmColor: '#b4282d',
             content: '退出登录？'
           })
-          console.log(res)
           if (res.confirm) {
             wepy.removeStorageSync('token')
             wepy.removeStorageSync('userInfo')

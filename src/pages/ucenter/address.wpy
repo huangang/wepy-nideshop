@@ -171,7 +171,6 @@
     }
     methods = {
       addressAddOrUpdate (event) {
-        console.log(event)
         wepy.navigateTo({
           url: '/pages/ucenter/addressAdd?id=' + event.currentTarget.dataset.addressId
         })
@@ -197,6 +196,7 @@
       let res = await util.request(api.AddressList)
       if (res.errno === 0) {
         this.addressList = res.data
+        this.$apply()
       }
     }
   }

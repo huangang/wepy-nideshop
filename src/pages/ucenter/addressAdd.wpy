@@ -250,7 +250,12 @@
       regionList: [],
       selectRegionDone: false
     }
-    onLoad() {
+    onLoad(options) {
+      if (options.id) {
+        this.addressId = options.id
+        this.getAddressDetail()
+      }
+      this.getRegionList(1)
     }
     methods = {
       bindinputMobile(event) {
@@ -372,7 +377,7 @@
       },
       cancelAddress() {
         wepy.reLaunch({
-          url: '/pages/shopping/address/address'
+          url: '/pages/shopping/address'
         })
       },
       async saveAddress() {
@@ -406,7 +411,7 @@
         }, 'POST')
         if (res.errno === 0) {
           wepy.reLaunch({
-            url: '/pages/shopping/address/address'
+            url: '/pages/shopping/address'
           })
         }
       }
@@ -427,7 +432,7 @@
     }
     async getRegionList(regionId) {
       let regionType = this.regionType
-      let res = util.request(api.RegionList, { parentId: regionId })
+      let res = await util.request(api.RegionList, { parentId: regionId })
       if (res.errno === 0) {
         this.regionList = res.data.map(item => {
           // 标记已选择的

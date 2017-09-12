@@ -169,8 +169,8 @@
     async onLoad() {
       await this.getAddressList()
     }
-    getAddressList () {
-      let res = util.request(api.AddressList)
+    async getAddressList () {
+      let res = await util.request(api.AddressList)
       if (res.errno === 0) {
         this.addressList = res.data
         this.$apply()

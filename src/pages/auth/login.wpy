@@ -165,7 +165,7 @@
           })
           if (ret) {
             wepy.switchTab({
-              url: '/pages/ucenter/index/index'
+              url: '/pages/ucenter/index'
             })
           }
         }

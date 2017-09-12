@@ -250,7 +250,12 @@
       regionList: [],
       selectRegionDone: false
     }
-    onLoad() {
+    onLoad(options) {
+      if (options.id) {
+        this.addressId = options.id
+        this.getAddressDetail()
+      }
+      this.getRegionList(1)
     }
     methods = {
       bindinputMobile(event) {
