@@ -104,33 +104,32 @@
       }
     }
     methods = {
-      openGoods (event) {
+      async openGoods (event) {
         let goodsId = this.collectList[event.currentTarget.dataset.index].value_id
         // 触摸时间距离页面打开的毫秒数
         var touchTime = this.touch_end - this.touch_start
         console.log(touchTime)
         // 如果按下时间大于350为长按
         if (touchTime > 350) {
-          wepy.showModal({
-            title: '',
-            content: '确定删除吗？',
-            success: function (res) {
-              if (res.confirm) {
-
-                util.request(api.CollectAddOrDelete, { typeId: that.data.typeId, valueId: goodsId}, 'POST').then(function (res) {
-                  if (res.errno === 0) {
-                    console.log(res.data);
-                    wx.showToast({
-                      title: '删除成功',
-                      icon: 'success',
-                      duration: 2000
-                    });
-                    that.getCollectList();
-                  }
-                });
+          try {
+            let res = wepy.showModal({
+              title: '',
+              content: '确定删除吗？'
+            })
+            if (res.confirm) {
+              let ret = await util.request(api.CollectAddOrDelete, {typeId: this.typeId, valueId: goodsId}, 'POST')
+              if (ret.errno === 0) {
+                console.log(res.data)
+                wepy.showToast({
+                  title: '删除成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+                this.getCollectList()
               }
             }
-          })
+          } catch (e) {
+          }
         } else {
           wepy.navigateTo({
             url: '/pages/goods/index?id=' + goodsId

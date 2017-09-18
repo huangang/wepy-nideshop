@@ -10,11 +10,6 @@ npm install
 wepy build --watch
 ```
 
-## 备注
-`nideshop_channel`这个表    
-原数据`/pages/category/category?id={id}`   
-修改成`/pages/category?id={id}` 
-
 ## help
 ```bash
 node_modules/.bin/eslint --fix src/pages/xxx.wpy # eslint fix file

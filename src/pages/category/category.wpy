@@ -147,8 +147,8 @@
 
 <script>
   import wepy from 'wepy'
-  import util from '../utils/util.js'
-  import api from '../config/api.js'
+  import util from '../../utils/util.js'
+  import api from '../../config/api.js'
 
   export default class Category extends wepy.page {
     config = {

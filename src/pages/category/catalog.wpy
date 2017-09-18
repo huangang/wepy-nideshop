@@ -186,7 +186,7 @@
           <text class="line"></text>
         </view>
         <view class="bd">
-          <navigator url="/pages/category?id={{item.id}}" class="item {{(index+1) % 3 == 0 ? 'last' : ''}}" wx:for="{{currentCategory.subCategoryList}}" wx:key="{{item.id}}">
+          <navigator url="/pages/category/category?id={{item.id}}" class="item {{(index+1) % 3 == 0 ? 'last' : ''}}" wx:for="{{currentCategory.subCategoryList}}" wx:key="{{item.id}}">
             <image class="icon" src="{{item.wap_banner_url}}"></image>
             <text class="txt">{{item.name}}</text>
           </navigator>
@@ -198,8 +198,8 @@
 
 <script>
   import wepy from 'wepy'
-  import util from '../utils/util.js'
-  import api from '../config/api.js'
+  import util from '../../utils/util.js'
+  import api from '../../config/api.js'
 
   export default class Catalog extends wepy.page {
     data = {

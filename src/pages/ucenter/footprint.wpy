@@ -133,38 +133,36 @@
       }
     }
     methods = {
-      deleteItem (event){
-        let that = this;
-        let footprint = event.currentTarget.dataset.footprint;
-        var touchTime = that.data.touch_end - that.data.touch_start;
-        console.log(touchTime);
-        //如果按下时间大于350为长按
+      async deleteItem (event) {
+        let footprint = event.currentTarget.dataset.footprint
+        var touchTime = this.touch_end - this.touch_start
+        console.log(touchTime)
+        // 如果按下时间大于350为长按
         if (touchTime > 350) {
-          wx.showModal({
-            title: '',
-            content: '要删除所选足迹？',
-            success: function (res) {
-              if (res.confirm) {
-                util.request(api.FootprintDelete, { footprintId: footprint.id }, 'POST').then(function (res) {
-                  if (res.errno === 0) {
-                    wx.showToast({
-                      title: '删除成功',
-                      icon: 'success',
-                      duration: 2000
-                    });
-                    that.getFootprintList();
-                  }
-                });
-                console.log('用户点击确定')
+          try {
+            let res = wepy.showModal({
+              title: '',
+              content: '要删除所选足迹？'
+            })
+            if (res.confirm) {
+              let ret = await util.request(api.FootprintDelete, { footprintId: footprint.id }, 'POST')
+              if (ret.errno === 0) {
+                wepy.showToast({
+                  title: '删除成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+                this.getFootprintList()
               }
+              console.log('用户点击确定')
             }
-          });
+          } catch (e) {
+          }
         } else {
-          wx.navigateTo({
-            url: '/pages/goods/goods?id=' + footprint.goods_id,
-          });
+          wepy.navigateTo({
+            url: '/pages/goods/goods?id=' + footprint.goods_id
+          })
         }
-
       },
       // 按下事件开始
       touchStart: function (e) {

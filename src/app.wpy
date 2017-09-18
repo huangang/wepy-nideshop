@@ -30,7 +30,8 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
-      'pages/category',
+      'pages/category/category',
+      'pages/category/catalog',
       'pages/brand/index',
       'pages/brand/detail',
       'pages/goods/index',
@@ -41,7 +42,6 @@ export default class extends wepy.app {
       'pages/topic/comment',
       'pages/comment/post',
       'pages/comment/index',
-      'pages/catalog',
       'pages/search',
       'pages/cart',
       'pages/ucenter/index',
@@ -86,7 +86,7 @@ export default class extends wepy.app {
           'text': '专题'
         },
         {
-          'pagePath': 'pages/catalog',
+          'pagePath': 'pages/category/catalog',
           'iconPath': 'static/images/ic_menu_sort_nor.png',
           'selectedIconPath': 'static/images/ic_menu_sort_pressed.png',
           'text': '分类'
