@@ -32,7 +32,7 @@ async function loginByWeixin() {
  */
 async function checkLogin() {
   if (wepy.getStorageSync('userInfo') && wepy.getStorageSync('token')) {
-    let res = util.checkSession()
+    let res = await util.checkSession()
     if (res) {
       return true
     } else {

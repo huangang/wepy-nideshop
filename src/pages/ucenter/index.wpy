@@ -264,12 +264,19 @@
     methods = {
       async goLogin() {
         let res = await user.loginByWeixin()
-        if (res) {
+        console.log(res)
+        if (res && res.errno === 0) {
           this.userInfo = res.data.userInfo
           this.token = res.data.token
           this.$parent.globalData.userInfo = res.data.userInfo
           this.$parent.globalData.token = res.data.token
           this.$apply()
+        } else {
+          wepy.showModal({
+            title: '失败',
+            content: '登录失败',
+            showCancel: false
+          })
         }
       },
       async exitLogin () {

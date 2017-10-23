@@ -355,10 +355,25 @@
       }, 1000)
     }
     methods = {
-      payOrder() {
-        wepy.redirectTo({
-          url: '/pages/pay/pay'
+      async payOrder() {
+        let res = await util.request(api.PayPrepayId, {
+          orderId: this.orderId || 15
         })
+        if (res.errno === 0) {
+          const payParam = res.data
+          try {
+            let ret = wepy.requestPayment({
+              'timeStamp': payParam.timeStamp,
+              'nonceStr': payParam.nonceStr,
+              'package': payParam.package,
+              'signType': payParam.signType,
+              'paySign': payParam.paySign
+            })
+            return !!ret
+          } catch (e) {
+            return false
+          }
+        }
       }
     }
   }

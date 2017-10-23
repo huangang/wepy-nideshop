@@ -76,8 +76,8 @@
           <view class="p">否则订单将会被系统取消</view>
         </view>
         <view class="btns">
-          <navigator class="btn" url="/pages/ucenter/order/order" open-type="redirect">查看订单</navigator>
-          <navigator class="btn" url="/pages/pay/pay" open-type="redirect">重新付款</navigator>
+          <navigator class="btn" url="/pages/ucenter/order" open-type="redirect">查看订单</navigator>
+          <view class="btn" bindtap='payOrder'>重新付款</view>
         </view>
       </view>
     </view>
@@ -86,6 +86,8 @@
 
 <script>
   import wepy from 'wepy'
+  import util from '../../utils/util.js'
+  import pay from '../../services/pay.js'
 
   export default class Result extends wepy.page {
     config = {
@@ -93,10 +95,23 @@
       navigationBarBackgroundColor: '#fafafa'
     }
     data = {
-      status: false
+      status: false,
+      orderId: 0
     }
     onLoad(options) {
       this.status = options.status
+      this.orderId = options.orderId || 24
+    }
+    methods = {
+      async payOrder() {
+        let res = pay.payOrder(parseInt(this.data.orderId))
+        if (res) {
+          this.status = true
+          this.$apply()
+        } else {
+          util.showErrorToast('支付失败')
+        }
+      }
     }
   }
 </script>

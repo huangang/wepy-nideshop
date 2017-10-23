@@ -387,7 +387,7 @@
   import wepy from 'wepy'
   import util from '../../utils/util.js'
   import api from '../../config/api.js'
-
+  import pay from '../../services/pay.js'
   export default class Checkout extends wepy.page {
     data = {
       checkedGoodsList: [],
@@ -413,18 +413,26 @@
           url: '/pages/shopping/addressAdd'
         })
       },
-      submitOrder() {
+      async submitOrder() {
         if (this.addressId <= 0) {
           util.showErrorToast('请选择收货地址')
           return false
         }
         let res = util.request(api.OrderSubmit, { addressId: this.addressId, couponId: this.couponId }, 'POST')
         if (res.errno === 0) {
-          wepy.redirectTo({
-            url: '/pages/pay/pay?orderId=' + res.data.orderInfo.id + '&actualPrice=' + res.data.orderInfo.actual_price
-          })
+          const orderId = res.data.orderInfo.id
+          let ret = await pay.payOrder(parseInt(orderId))
+          if (ret) {
+            wepy.redirectTo({
+              url: '/pages/pay/pay?orderId=' + res.data.orderInfo.id + '&actualPrice=' + res.data.orderInfo.actual_price
+            })
+          } else {
+            wepy.redirectTo({
+              url: '/pages/pay/result?status=0&orderId=' + orderId
+            })
+          }
         } else {
-          util.showErrorToast(res.data.errmsg)
+          util.showErrorToast('下单失败')
         }
       }
     }
