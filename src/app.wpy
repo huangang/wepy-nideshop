@@ -53,6 +53,7 @@ export default class extends wepy.app {
       'pages/ucenter/footprint',
       'pages/ucenter/order',
       'pages/ucenter/orderDetail',
+      'pages/ucenter/express',
       'pages/logs',
       'pages/pay/pay',
       'pages/pay/result',
@@ -65,7 +66,7 @@ export default class extends wepy.app {
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: '仿网易严选',
       navigationBarTextStyle: 'black',
-      enablePullDownRefresh: 'true'
+      enablePullDownRefresh: true
     },
     'tabBar': {
       'backgroundColor': '#fafafa',
